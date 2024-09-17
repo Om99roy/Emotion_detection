@@ -7,7 +7,7 @@ import pickle
 import cv2
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 
 
 
@@ -17,52 +17,53 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # return render_template('./frontend/index.html')
+    return "hello world"
 
-@app.route('/login.html', methods=['GET','POST'])
-def login():
-    return render_template('login.html')
+# @app.route('/login.html', methods=['GET','POST'])
+# def login():
+#     return render_template('login.html')
 
-@app.route('/register.html', methods=['GET','POST'])
-def register():
-    return render_template('register.html')
+# @app.route('/register.html', methods=['GET','POST'])
+# def register():
+#     return render_template('register.html')
 
-@app.route('/home.html', methods=['GET','POST'])
-def home():
-    return render_template('home.html')
+# @app.route('/home.html', methods=['GET','POST'])
+# def home():
+#     return render_template('home.html')
 
-@app.route('/about.html', methods=['GET','POST'])
-def about():
-    return render_template('about.html')
+# @app.route('/about.html', methods=['GET','POST'])
+# def about():
+#     return render_template('about.html')
 
-@app.route('/contact.html', methods=['GET','POST'])
-def contact():
-    return render_template('contact.html')
+# @app.route('/contact.html', methods=['GET','POST'])
+# def contact():
+#     return render_template('contact.html')
 
-@app.route('/features.html', methods=['GET','POST'])
-def features():
-    return render_template('features.html')
+# @app.route('/features.html', methods=['GET','POST'])
+# def features():
+#     return render_template('features.html')
 
-@app.route('/video-feed')
-def videofeed():
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
+# @app.route('/video-feed')
+# def videofeed():
+#     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/get_started.html', methods=['GET', 'POST'])
+
+
+@app.route('/get_started', methods=['GET', 'POST'])
 def get_started():
-    classifier = load_model(r'C:\Users\ANKAN ROY\Desktop\Smart Perfume Dispenser\Flask\model\emotion_detection_model.h5')
-    face_classifier = cv2.CascadeClassifier(r'C:\Users\ANKAN ROY\Desktop\Smart Perfume Dispenser\Flask\haarcascade\haarcascade_frontalface.xml')
+    classifier = load_model('./emotion_detection_model.h5')
+    face_classifier = cv2.CascadeClassifier('./haarcascade/haarcascade_frontalface.xml')
 
-    # Define emotion labels
+    # Emotion labels
     emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
     def generate_frames():
         cap = cv2.VideoCapture(0)
 
         while True:
-            success, frame = cap.read()  # Capture frame-by-frame
+            success, frame = cap.read()
             if not success:
                 break
             else:
@@ -98,6 +99,9 @@ def get_started():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+@app.route('/camera_feed')
+def camera_feed():
+    return render_template('get_started.html')
    
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
