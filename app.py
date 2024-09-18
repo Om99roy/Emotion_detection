@@ -64,12 +64,13 @@ detected_emotion = "Neutral"
 @app.route('/get_started', methods=['GET', 'POST'])
 def get_started():
     global detected_emotion  # Reference the global variable
-    classifier = load_model(r'C:\Users\ANKAN ROY\Desktop\Smart Perfume Dispenser\Flask\model\emotion_detection_model.h5')
-    face_classifier = cv2.CascadeClassifier(r'C:\Users\ANKAN ROY\Desktop\Smart Perfume Dispenser\Flask\haarcascade\haarcascade_frontalface.xml')
+    classifier = load_model('./emotion_detection_model.h5')
+    face_classifier = cv2.CascadeClassifier('./haarcascade/haarcascade_frontalface.xml')
 
     emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
     def generate_frames():
+        global detected_emotion
         cap = cv2.VideoCapture(0)
 
         while True:
@@ -93,6 +94,7 @@ def get_started():
                         prediction = classifier.predict(roi)[0]
                         label = emotion_labels[prediction.argmax()]
                         detected_emotion = label  # Update the global detected emotion
+                        # print(detected_emotion,label)
 
                         label_position = (x, y-10)
                         cv2.putText(frame, label, label_position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
@@ -110,21 +112,28 @@ def get_started():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-# SSE Endpoint to send emotion label updates
-@app.route('/emotion_feed')
-def emotion_feed():
-    def generate_emotions():
-        global detected_emotion
-        while True:
-            time.sleep(1)  # Send the emotion every second
-            yield f"data: {detected_emotion}\n\n"  # SSE format
-    return Response(generate_emotions(), mimetype='text/event-stream')
-
-
-
 @app.route('/camera_feed')
 def camera_feed():
     return render_template('get_started.html')
+
+# SSE Endpoint to send emotion label updates
+# @app.route('/emotion_feed')
+# def emotion_feed():
+#     def generate_emotions():
+#         global detected_emotion
+#         print(detected_emotion)
+#         while True:
+#             time.sleep(1)  # Send the emotion every second
+#             yield f"data: {detected_emotion}\n\n"  # SSE format
+#     return Response(generate_emotions(), mimetype='text/event-stream')
+
+@app.route('/detected_emotion', methods=['GET'])
+def get_detected_emotion():
+    global detected_emotion
+    # print(detected_emotion)
+    return jsonify({'emotion': detected_emotion})
+
+
    
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
