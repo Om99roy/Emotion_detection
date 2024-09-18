@@ -120,7 +120,8 @@
           <div class="emotion-display">
             <h2>Your Detected Mood Is :</h2>
             <div class="emotion-icon">
-              <p id="emotion-icon">😊 HAPPINESS DETECTED</p>
+              <p id="emotion-icon">Waiting for detection...</p>
+              <!-- Dynamic content here -->
             </div>
             <p class="emotion-description" id="emotion-description">
               Waiting for detection...
@@ -182,5 +183,64 @@
         }
       })();
     </script> -->
+    <script>
+      function updateEmotion() {
+        fetch("/detected_emotion")
+          .then((response) => response.json())
+          .then((data) => {
+            const emotionIcon = document.getElementById("emotion-icon");
+            const emotionDescription = document.getElementById(
+              "emotion-description"
+            );
+            const audioSource = document.getElementById("audio-source");
+            const audioPlayer = document.getElementById("audio-player");
+
+            // Track mapping based on emotions
+            const emotionToTrackMap = {
+              Neutral: "/static/music/1.mp3",
+              Sad: "/static/music/2.mp3",
+              Surprise: "/static/music/3.mp3",
+              Happy: "/static/music/4.mp3",
+              // Angry: "/static/music/5.mp3",
+            };
+
+            // Emoji mapping for each emotion
+            const emojiMap = {
+              Neutral: "😐",
+              Sad: "😢",
+              Surprise: "😲",
+              Happy: "😊",
+              Angry: "😠",
+              Disgust: "🤢",
+              Fear: "😨",
+            };
+
+            if (data.emotion) {
+              // Update emoji and description
+              emotionIcon.textContent = `${
+                emojiMap[data.emotion] || "😊"
+              } ${data.emotion.toUpperCase()} DETECTED`;
+              emotionDescription.textContent = `Current mood detected: ${data.emotion}`;
+
+              // Update audio source based on emotion
+              const track = emotionToTrackMap[data.emotion];
+              if (track) {
+                audioSource.src = track;
+                audioPlayer.load(); // Reload the audio player to apply the new source
+                audioPlayer.play(); // Automatically play the track
+              }
+            } else {
+              // No emotion detected fallback
+              emotionIcon.textContent = "😕 No Emotion Detected";
+              emotionDescription.textContent = "Waiting for detection...";
+              audioPlayer.pause(); // Pause any playing music if no emotion is detected
+            }
+          })
+          .catch((error) => console.error("Error fetching emotion:", error));
+      }
+
+      // Call updateEmotion every 2 seconds (2000 milliseconds)
+      setInterval(updateEmotion, 10000);
+    </script>
   </body>
 </html>
