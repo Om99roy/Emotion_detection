@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link
+    rel="stylesheet"
+    href="{{url_for('static',filename='css/style.css')}}"
+   />    
+  <style>
+        body {
+            background-image: url('../static/images/contact.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            
+        }
+
+        .content {
+            text-align: center;
+            color: white;
+            padding: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <!-- Common Header included here -->
+    <header>
+        <div class="container">
+            <h1><a href="/" class="gradient-text">FeelTuner</a></h1>
+            <style>
+                .gradient-text {
+                    background: linear-gradient(to right, #ffdc00, #3ed40b, #00f0ff);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    text-fill-color: transparent;
+                  }
+                  
+            </style>
+        </div>
+        <div  style="float: right;position: relative;">
+            <nav>
+                
+                <ul>
+                 <b><b><li><a href="/">Home</a></li></b>
+                 <b><li><a href="/about">About Us</a></li></b>
+                 <b><li><a href="/features">Services</a></li></b> 
+                 <b><li><a href="/contact">Contact Us</a></li></b>
+                    <!-- <button style="border: none; background-color: transparent;"><h4><li><a href="login.html">LOGIN</a></li></h4></button> -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="contact">
+        <div class="container">
+            <h2>REACH OUT TO US</h2>
+            <h3><p>Have queries, Reach out to us!</p></h3>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- Common Footer included here -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Emotion Recognization System. All Rights Reserved.</p>
+          </div>
+          <div class="footer-links">
+            <p><a href="/privacy-policy">Privacy Policy</a> | <a href="/terms-of-service">Terms of Service</a></p>
+          </div>
+          <div class="social-media">
+            <a href="https://facebook.com" target="_blank" aria-label="Facebook"><img src="fb.jpg" alt="Facebook"></a>
+            <a href="https://twitter.com" target="_blank" aria-label="Twitter"><img src="X.jpg" alt="Twitter"></a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><img src="insta.jpg" alt="Instagram"></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><img src="link.jpg" alt="LinkedIn"></a>
+        </div>
+    </footer>
+</body>
+</html>
