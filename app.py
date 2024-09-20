@@ -80,32 +80,37 @@ def get_started():
             else:
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 faces = face_classifier.detectMultiScale(gray)
+                if len(faces) == 0:
+                    # If no faces are detected, set detected_emotion to "No Emotion"
+                    detected_emotion = "No Emotion"
+                else:
 
-                for (x, y, w, h) in faces:
-                    cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 255), 2)
-                    roi_gray = gray[y:y+h, x:x+w]
-                    roi_gray = cv2.resize(roi_gray, (48, 48), interpolation=cv2.INTER_AREA)
+                    for (x, y, w, h) in faces:
+                        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 255), 2)
+                        roi_gray = gray[y:y+h, x:x+w]
+                        roi_gray = cv2.resize(roi_gray, (48, 48), interpolation=cv2.INTER_AREA)
 
-                    if np.sum([roi_gray]) != 0:
-                        roi = roi_gray.astype('float32') / 255.0
-                        roi = img_to_array(roi)
-                        roi = np.expand_dims(roi, axis=0)
+                        if np.sum([roi_gray]) != 0:
+                            roi = roi_gray.astype('float32') / 255.0
+                            roi = img_to_array(roi)
+                            roi = np.expand_dims(roi, axis=0)
 
-                        prediction = classifier.predict(roi)[0]
-                        label = emotion_labels[prediction.argmax()]
-                        detected_emotion = label  # Update the global detected emotion
-                        # print(detected_emotion,label)
+                            prediction = classifier.predict(roi)[0]
+                            label = emotion_labels[prediction.argmax()]
+                            detected_emotion = label  # Update the global detected emotion
+                            # print(detected_emotion,label)
 
-                        label_position = (x, y-10)
-                        cv2.putText(frame, label, label_position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                    else:
-                        cv2.putText(frame, 'No Faces Detected', (30, 80), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                            label_position = (x, y-10)
+                            cv2.putText(frame, label, label_position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                        else:
+                            detected_emotion = "No Emotion"
+                            cv2.putText(frame, 'No Faces Detected', (30, 80), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-                ret, buffer = cv2.imencode('.jpg', frame)
-                frame = buffer.tobytes()
+                    ret, buffer = cv2.imencode('.jpg', frame)
+                    frame = buffer.tobytes()
 
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                    yield (b'--frame\r\n'
+                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
         cap.release()
 

@@ -79,16 +79,22 @@
       <div class="container" style="float: left">
         <!-- <img src="logo.png" alt="Logo" class="logo"> -->
         <h1>
-           <b><a href="/" class="gradient-text"> FeelTuner</a></b>
-            <style>
-                .gradient-text {
-                    background: linear-gradient(to right, #0c0101, #090b97, #f30707, #0c0101);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    background-clip: text;
-                    text-fill-color: transparent;
-                  }
-            </style>
+          <b><a href="/" class="gradient-text"> FeelTuner</a></b>
+          <style>
+            .gradient-text {
+              background: linear-gradient(
+                to right,
+                #0c0101,
+                #090b97,
+                #f30707,
+                #0c0101
+              );
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              text-fill-color: transparent;
+            }
+          </style>
         </h1>
       </div>
       <div>
@@ -212,7 +218,8 @@
               Sad: "/static/music/2.mp3",
               Surprise: "/static/music/3.mp3",
               Happy: "/static/music/4.mp3",
-              Angry: "/static/music/5.mp3",
+              // Angry: "/static/music/5.mp3",
+              "No Emotion": "", // No track to play when no emotion is detected
             };
 
             // Emoji mapping for each emotion
@@ -239,6 +246,11 @@
                 audioSource.src = track;
                 audioPlayer.load(); // Reload the audio player to apply the new source
                 audioPlayer.play(); // Automatically play the track
+              } else {
+                // No emotion detected fallback
+                emotionIcon.textContent = "😕 No Emotion Detected";
+                emotionDescription.textContent = "Waiting for detection...";
+                audioPlayer.pause(); // Pause any playing music if no emotion is detected
               }
             } else {
               // No emotion detected fallback
