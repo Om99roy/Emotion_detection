@@ -3,7 +3,6 @@
 **1. Problem Statement:**
 The goal of this project is to create an interactive facial emotion recognition system that detects a person’s emotions (happy, sad, neutral, disgust, fear, surprise, etc.) through a webcam and responds accordingly. When a person shows negative emotions (such as sadness or fear), the system will play uplifting music. When the person becomes happy, it will produce a sense of well-being.
 
----
 
 ### **2. Approach to the Solution:**
 
@@ -37,7 +36,6 @@ The goal of this project is to create an interactive facial emotion recognition 
   - Multiple epochs are run to ensure the model learns to distinguish between different emotions.
   - After each epoch, the model’s performance is evaluated using metrics like accuracy, precision, and recall.
 
----
 
 ### **3. Backend Development**
 
@@ -72,7 +70,7 @@ The goal of this project is to create an interactive facial emotion recognition 
   
 - **Response Based on Emotion:**
   - Once the emotion is detected, this information can be used to trigger actions such as playing music or showing visual effects.
----
+
 
 ### **5. Deployment**
 
@@ -88,7 +86,7 @@ The goal of this project is to create an interactive facial emotion recognition 
 - **Monitoring & Iteration:**
   - After deployment, the model is monitored for its performance. Adjustments are made based on user feedback, and the model is periodically retrained with new data if necessary.
 
----
+
 
 ### **6. Summary of Components**
 
