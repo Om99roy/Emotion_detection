@@ -41,7 +41,7 @@ The goal of this project is to create an interactive facial emotion recognition 
 
 #### **Step 4: Building the API**
 - **Flask Framework:**
-  - A Flask-based REST API is developed to serve the emotion recognition model.
+  - A Flask-based is developed to serve the emotion recognition model.
   - The backend handles requests from the webcam, processes the images using the trained model, and returns the predicted emotion.
  
   - **4. Video Feed Rendering (/camera_feed route):**
